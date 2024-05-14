@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Define variables for colors and font sizes */
+      :root {
+        --background-color: #000;
+        --font-size: 16px;
+      }
+
+      /* Use a consistent naming convention */
+      .stage {
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+        width: 100vw;
+      }
+
+      .actor {
+        animation: kenburns 8s linear 1;
+        background-size: cover;
+        background-position: 50%;
+        height: 100vh;
+        inset: 0;
+        opacity: 0;
+        position: absolute;
+        transform: scale(1.2);
+        width: 100vw;
+      }
+
+      /* Define background images using CSS variables */
+      .actor {
+        --background-image: url('https://github.com/JamesCraix/Golddie-Website/raw/main/Bandit_web_banner.png');
+      }
+
+      @keyframes kenburns {
+        0% {
+          opacity: 0;
+          transform: scale(1.2);
+        }
+
+        50% {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage"></div>
+
+    <script>
+      // Create a new image element
+      const image = new Image();
+
+      // Set the source of the image
+      image.src = "https://github.com/JamesCraix/Golddie-Website/raw/main/Bandit_web_banner.png";
+
+      // Wait for the image to load
+      image.onload = () => {
+        // Create a new actor element
+        const actor = document.createElement("div");
+
+        // Set the class of the actor element
+        actor.className = "actor";
+
+        // Set the background image of the actor element
+        actor.style.backgroundImage = `url(${image.src})`;
+
+        // Append the actor element to the stage element
+        document.querySelector(".stage").appendChild(actor);
+
+        // Create a new IntersectionObserver object
+        const observer = new IntersectionObserver(
+          (entries) => {
+            // If the embed is in view
+            if (entries[0].isIntersecting) {
+              // Set the opacity of the actor element to 1
+              actor.style.opacity = "1";
+
+              // Stop observing the embed
+              observer.disconnect();
+            }
+          },
+          { threshold: 0.5 }
+        );
+
+        // Observe the stage element
+        observer.observe(document.querySelector(".stage"));
+      };
+    </script>
+  </body>
+</html>
